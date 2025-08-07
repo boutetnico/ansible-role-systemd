@@ -1,0 +1,17 @@
+---
+- name: Ensure systemd unit files are set
+  ansible.builtin.template:
+    dest: /etc/systemd/system/{{ item.name }}.service
+    group: root
+    mode: "0644"
+    owner: root
+    src: systemd.unit.j2
+  loop: "{{ systemd_unit_files }}"
+  notify: Reload systemd daemon
+
+- name: Ensure each unit is enabled and started
+  ansible.builtin.systemd:
+    enabled: true
+    service: "{{ item.name }}"
+    state: started
+  loop: "{{ systemd_unit_files }}"
