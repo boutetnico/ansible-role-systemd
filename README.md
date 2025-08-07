@@ -24,10 +24,7 @@ Role Variables
 
 | Variable                     | Required | Default                  | Choices   | Comments                                      |
 |------------------------------|----------|--------------------------|-----------|-----------------------------------------------|
-| systemd_dependencies        | true     |                          | list      | See `defaults/main.yml`.                      |
-| systemd_package             | true     | `systemd`               | string    |                                               |
-| systemd_package_state       | true     | `present`                | string    |                                               |
-| systemd_config              | true     |                          | dict      | Configuration object. See `defaults/main.yml`.|
+| systemd_unit_files           | true     |                          | list      |                                               |
 
 Dependencies
 ------------
@@ -40,6 +37,21 @@ Example Playbook
     - hosts: all
       roles:
         - role: ansible-role-systemd
+
+          systemd_unit_files:
+            - name: example-unit
+              config:
+                Unit:
+                  Description: Example unit file
+                Service:
+                  ExecStart: /bin/bash -c "while true; do sleep 3600; done"
+                  Restart: always
+                  User: root
+                  Group: root
+                  LimitNOFILE: 65536
+                  TimeoutStopSec: 10
+                Install:
+                  WantedBy: multi-user.target
 
 Testing
 -------
