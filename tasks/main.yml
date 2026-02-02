@@ -8,6 +8,7 @@
     src: systemd.unit.j2
   loop: "{{ systemd_unit_files }}"
   notify: Reload systemd daemon
+  no_log: true
 
 - name: Ensure each unit is enabled and started
   ansible.builtin.systemd:
