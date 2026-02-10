@@ -18,3 +18,14 @@
               TimeoutStopSec: 10
             Install:
               WantedBy: multi-user.target
+        - name: example-unit-2
+          config:
+            Unit:
+              Description: Second example unit file
+            Service:
+              ExecStart: /bin/bash -c "while true; do sleep 3600; done"
+              Restart: on-failure
+              User: root
+              Group: root
+            Install:
+              WantedBy: multi-user.target
